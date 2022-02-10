@@ -199,42 +199,44 @@ rm wp-config-temp.php
 rm db.txt
 rm salt.txt
 
-# --------------------
-# Create Sublime Project config file
-# --------------------
-echo 'Create Sublime text 2 project file...'
-SUBLIME_PROJECT_FILE=$PROJECT_NAME".sublime-project"
-touch $SUBLIME_PROJECT_FILE
-echo '{
-	"folders":
-	[
-		
-		{
-			"path": "./wp-content/themes/'$PROJECT_NAME'",
-			"name": "My theme",
-			"file_exclude_patterns":[
-				"._*"
-			],
-			"folder_exclude_patterns": [".sass-cache"]
-		},
-		{
-			"path": "./wp-content/plugins",
-			"file_exclude_patterns":[
-				"._*"
-			]
-		},
-		{
-			"path": ".",
-			"name": "All website",
-			"file_exclude_patterns":[
-				"._*",
-				"*.sublime-project",
-				"*.sublime-workspace"
-			],
-			"folder_exclude_patterns": [".sass-cache"]
-		}
-	]
-}' > $SUBLIME_PROJECT_FILE
+if [[ $SUBLIME_ENABLED == true ]]; then
+	# --------------------
+	# Create Sublime Project config file
+	# --------------------
+	echo 'Create Sublime text 2 project file...'
+	SUBLIME_PROJECT_FILE=$PROJECT_NAME".sublime-project"
+	touch $SUBLIME_PROJECT_FILE
+	echo '{
+		"folders":
+		[
+
+			{
+				"path": "./wp-content/themes/'$PROJECT_NAME'",
+				"name": "My theme",
+				"file_exclude_patterns":[
+					"._*"
+				],
+				"folder_exclude_patterns": [".sass-cache"]
+			},
+			{
+				"path": "./wp-content/plugins",
+				"file_exclude_patterns":[
+					"._*"
+				]
+			},
+			{
+				"path": ".",
+				"name": "All website",
+				"file_exclude_patterns":[
+					"._*",
+					"*.sublime-project",
+					"*.sublime-workspace"
+				],
+				"folder_exclude_patterns": [".sass-cache"]
+			}
+		]
+	}' > $SUBLIME_PROJECT_FILE
+fi
 
 # --------------------
 # Create sFTP config files
@@ -294,18 +296,22 @@ if [[ $FTP_HOST != "" ]]; then
 	create_FTP_file $FTP_ROOT"/wp-content/plugins"
 fi
 
-# --------------------
-# Launch sublime project
-# --------------------
-echo 'Launch Sublime text 2'
-cd $PROJECT_DIR
-"$SUBLIME_PATH" $SUBLIME_PROJECT_FILE
+if [[ $SUBLIME_ENABLED == true ]]; then
+	# --------------------
+	# Launch sublime project
+	# --------------------
+	echo 'Launch Sublime text 2'
+	cd $PROJECT_DIR
+	"$SUBLIME_PATH" $SUBLIME_PROJECT_FILE
+fi
 
-# --------------------
-# Create a new project in CodeKit
-# --------------------
-echo 'Create codekit project'
-open -a /Applications/CodeKit.app $PROJECT_DIR"/wp-content/themes/"$PROJECT_NAME
+if [[ $CODEKIT_ENABLED == true ]]; then
+	# --------------------
+	# Create a new project in CodeKit
+	# --------------------
+	echo 'Create codekit project'
+	open -a /Applications/CodeKit.app $PROJECT_DIR"/wp-content/themes/"$PROJECT_NAME
+fi
 
 # --------------------
 # git init
