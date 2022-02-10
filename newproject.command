@@ -123,7 +123,7 @@ rm -rf wordpress && rm readme.html && rm license.txt
 # Fetch H5BP server-config .htaccess
 # --------------------
 git clone https://github.com/h5bp/server-configs-apache.git
-cp server-configs-apache/.htaccess .htaccess
+cp server-configs-apache/dist/.htaccess .htaccess
 rm -rf server-configs
 
 # --------------------
