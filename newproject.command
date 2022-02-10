@@ -28,12 +28,22 @@ done
 # --------------------
 # Create database
 # --------------------
-echo "For local database configuration, I will use project name as database name, I just need table prefix (default : wp_)"
-read TABLE_PREFIX
 if [[ $TABLE_PREFIX == "" ]]; then
-	TABLE_PREFIX="wp_"
+	echo "Table prefix (default : wp_)"
+	read TABLE_PREFIX
+	if [[ $TABLE_PREFIX == "" ]]; then
+		TABLE_PREFIX="wp_"
+	fi
 fi
-$MYSQL_PATH -u$DB_USER -p$DB_PASSWORD -e "create database "$PROJECT_NAME
+
+echo "Database name"
+read DB_NAME
+
+if [[ $DB_PASSWORD != "" ]]; then
+	$MYSQL_PATH -u $DB_USER -p $DB_PASSWORD -e "create database $DB_NAME"
+else
+	$MYSQL_PATH -u $DB_USER --password="" -e "create database $DB_NAME"
+fi
 
 # --------------------
 # Set FTP parmmeters for sublime SFTP mapping
@@ -159,7 +169,7 @@ echo 'Create wp-config...'
 cd $PROJECT_DIR
 touch wp-config-local.php
 echo "<?php
-define( 'DB_NAME', '"$PROJECT_NAME"' );
+define( 'DB_NAME', '"$DB_NAME"' );
 define( 'DB_USER', '"$DB_USER"' );
 define( 'DB_PASSWORD', '"$DB_PASSWORD"' );
 define( 'DB_HOST', '"$DB_HOST"' );" >wp-config-local.php
