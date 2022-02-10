@@ -48,60 +48,61 @@ fi
 # --------------------
 # Set FTP parmmeters for sublime SFTP mapping
 # --------------------
-echo "If you want to configure sFTP now, please enter FTP host. Type Q to skip sFTP configuration"
-read FTP_HOST
-if [[ $FTP_HOST =~ ^[Qq]$  ]]; then
-	FTP_HOST=''
-fi
-if [[ -n "$FTP_HOST" ]]; then
-
-	ABORT_SFTP=false
-
-	echo "FTP user ? (or Q to quit sFTP configuration)"
-	read FTP_USER
-	while [[ -z "$FTP_USER" ]]; do
-	    echo "Please, type your FTP user (or Q to quit sFTP configuration):"
-	    read FTP_USER
-	done
-
-	if [[ $FTP_USER =~ ^[Qq]$ ]]; then
-		ABORT_SFTP=true
-	fi
-
-	if [[ $ABORT_SFTP == false ]]; then
-		echo "FTP password ? (or Q to quit sFTP configuration)"
-		read FTP_PASS
-		while [[ -z "$FTP_PASS" ]]; do
-		    echo "Please, type your FTP password (or Q to quit sFTP configuration):"
-		    read FTP_PASS
-		done
-	fi
-
-	if [[ $FTP_PASS =~ ^[Qq]$ ]]; then
-		ABORT_SFTP=true
-	fi
-
-	if [[ $ABORT_SFTP == false ]]; then
-		echo "FTP remote path ? (or Q to quit sFTP configuration)"
-		read FTP_ROOT
-		while [[ -z "$FTP_ROOT" ]]; do
-		    echo "Please, type your FTP remote path (or Q to quit sFTP configuration):"
-		    read FTP_ROOT
-		done
-	fi
-
-	if [[ $FTP_ROOT =~ ^[Qq]$ ]]; then
-		ABORT_SFTP=true
-	fi
-
-	# If sFTP has been aborted, set $FTP_HOST to null
-	# so FTP files are not created
-	if [[ $ABORT_SFTP == true ]]; then
+if [[ $FTP_ENABLED == true ]]; then
+	echo "If you want to configure sFTP now, please enter FTP host. Type Q to skip sFTP configuration"
+	read FTP_HOST
+	if [[ $FTP_HOST =~ ^[Qq]$  ]]; then
 		FTP_HOST=''
 	fi
+	if [[ -n "$FTP_HOST" ]]; then
 
+		ABORT_SFTP=false
+
+		echo "FTP user ? (or Q to quit sFTP configuration)"
+		read FTP_USER
+		while [[ -z "$FTP_USER" ]]; do
+			echo "Please, type your FTP user (or Q to quit sFTP configuration):"
+			read FTP_USER
+		done
+
+		if [[ $FTP_USER =~ ^[Qq]$ ]]; then
+			ABORT_SFTP=true
+		fi
+
+		if [[ $ABORT_SFTP == false ]]; then
+			echo "FTP password ? (or Q to quit sFTP configuration)"
+			read FTP_PASS
+			while [[ -z "$FTP_PASS" ]]; do
+				echo "Please, type your FTP password (or Q to quit sFTP configuration):"
+				read FTP_PASS
+			done
+		fi
+
+		if [[ $FTP_PASS =~ ^[Qq]$ ]]; then
+			ABORT_SFTP=true
+		fi
+
+		if [[ $ABORT_SFTP == false ]]; then
+			echo "FTP remote path ? (or Q to quit sFTP configuration)"
+			read FTP_ROOT
+			while [[ -z "$FTP_ROOT" ]]; do
+				echo "Please, type your FTP remote path (or Q to quit sFTP configuration):"
+				read FTP_ROOT
+			done
+		fi
+
+		if [[ $FTP_ROOT =~ ^[Qq]$ ]]; then
+			ABORT_SFTP=true
+		fi
+
+		# If sFTP has been aborted, set $FTP_HOST to null
+		# so FTP files are not created
+		if [[ $ABORT_SFTP == true ]]; then
+			FTP_HOST=''
+		fi
+
+	fi
 fi
-
 
 # --------------------
 # Function
@@ -149,6 +150,8 @@ rm -r twentythirteen
 rm -r twentyfourteen
 rm -r twentyfifteen
 rm -r twentysixteen
+rm -r twentytwenty
+rm -r twentytwentyone
 
 # --------------------
 # Remove Hello Dolly plugin and fetch plugins
