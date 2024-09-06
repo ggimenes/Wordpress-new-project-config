@@ -1,0 +1,2 @@
+# open this folder using gitbash and run:
+./newproject.command
